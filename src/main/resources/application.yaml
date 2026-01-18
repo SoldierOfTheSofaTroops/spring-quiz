@@ -23,5 +23,7 @@ spring-quiz:
         # в который необходимо записать данные отчёта
         path: "./quiz-result.txt"
 spring:
+  config:
+    import: "classpath:quiz/questions.yaml"
   main:
     log-startup-info: false

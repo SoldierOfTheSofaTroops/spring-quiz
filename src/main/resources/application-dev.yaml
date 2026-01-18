@@ -1,0 +1,15 @@
+spring:
+  main:
+    log-startup-info: true
+    banner-mode: off
+
+logging:
+  level:
+    ru.yandex.practicum.quiz.QuizApp: WARN
+    root: trace
+
+spring-quiz:
+  report:
+    mode: "concise"
+  
+    

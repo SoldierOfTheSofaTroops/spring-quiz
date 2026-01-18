@@ -1,5 +1,6 @@
 package ru.yandex.practicum.quiz.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.quiz.config.AppConfig;
 import ru.yandex.practicum.quiz.model.QuizLog;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 import static ru.yandex.practicum.quiz.config.AppConfig.ReportOutputMode.CONSOLE;
 
+@Slf4j
 @Component
 public class ReportGenerator {
 
@@ -25,10 +27,12 @@ public class ReportGenerator {
     public void generate(QuizLog quizLog) {
         // Создаём объект PrintWriter, выводящий отчет в консоль
         if (!reportSettings.isEnabled()) {
+            log.debug("Вывод отчёта отключён, генерация отчёта прекращена");
             return;
         }
 
         AppConfig.ReportOutputSettings outputSettings = reportSettings.getOutput();
+        log.trace("Отчет будет выведен {}", outputSettings.getMode());
 
         try {
             boolean isConsole = outputSettings.getMode().equals(CONSOLE);
@@ -39,7 +43,7 @@ public class ReportGenerator {
                 write(quizLog, writer);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("При генерации отчёта произошла ошибка: " + e.getMessage());
+            log.warn("При генерации отчёта произошла ошибка: ", e);
         }
     }
 
